@@ -1,0 +1,114 @@
+﻿<Window x:Class="AddFamiliesToProjects.Views.AddFamiliesToProjectsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AddFamiliesToProjects.ViewModels" 
+             xmlns:utilities="clr-namespace:AddFamiliesToProjects.Utilities"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:AddFamiliesToProjectsViewModel}" Height="400" Width="800">
+
+    <Window.Resources>
+        <Style x:Key="_ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="_Border"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="_Border" Property="Background" Value="#FF057DAF"/>
+                                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <local:AddFamiliesToProjectsViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="290*" MinHeight="60"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="150*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Список семейств для добавления-->
+        <Label x:Name="label_ListProjects" Content="Список семейств:" Margin="10,10,0,0" 
+               VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0"/>
+
+        <Button x:Name="btn_AddFamilies" Content="Добавить семейство" 
+                Margin="0,10,10,0" Grid.Row="0" Grid.Column="0" 
+                VerticalAlignment="Top" HorizontalAlignment="Right" Height="25" Width="130" IsEnabled="True" 
+                Command="{Binding SelectFamilyCommand}"/>
+
+        <DataGrid x:Name="dataGrid_Families" Margin="10,40,10,0" 
+            Grid.Row="0" Grid.Column="0" CanUserAddRows="False"
+            AutoGenerateColumns="False" SelectionMode="Extended" 
+            CanUserDeleteRows="True"
+            ItemsSource="{Binding SelectedFamilies}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя семейства" Binding="{Binding FileName}"/>
+                <!--<DataGridCheckBoxColumn Header="Добавить семейства?" Width="130"/>-->
+                <DataGridTextColumn Header="Путь к семейству" Binding="{Binding FilePath}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--Список проектов в которые необходимо добавить семейства-->
+        <Label x:Name="label_ListFamilies" Content="Список проектов:" Margin="10,10,0,0" 
+               VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1"/>
+
+        <Button x:Name="btn_AddProjects" Content="Добавить проект" 
+                Margin="0,10,10,0" Grid.Row="0" Grid.Column="1" 
+                VerticalAlignment="Top" HorizontalAlignment="Right" Height="25" Width="130" IsEnabled="True" 
+                Command="{Binding SelectProjectCommand}"/>
+
+        <DataGrid x:Name="dataGrid_Projects" Margin="10,40,10,0" 
+            Grid.Row="0" Grid.Column="1" CanUserAddRows="False"
+            AutoGenerateColumns="False" SelectionMode="Extended" 
+            CanUserDeleteRows="True"
+            ItemsSource="{Binding SelectedProjects}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя проекта" Binding="{Binding FileName}"/>
+                <!--<DataGridCheckBoxColumn Header="Добавить семейства?" Width="130"/>-->
+                <DataGridTextColumn Header="Путь к проекту" Binding="{Binding FilePath}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button x:Name="btn_AddFamiliesToProjects" Content="Запустить" 
+                Margin="0,10,10,10" Grid.Row="1" Grid.Column="1" 
+                VerticalAlignment="Top" HorizontalAlignment="Right" Height="25" Width="120" IsEnabled="True" 
+                Command="{Binding AddFamiliesCommand}"/>
+
+        <Button x:Name="btn_OpenJsonFamilies" Content="Открыть" 
+                Margin="10,10,0,10" Grid.Row="1" Grid.Column="0" 
+                VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="120" IsEnabled="True" 
+                Command="{Binding OpenJsonFamiliesCommand}"/>
+
+        <Button x:Name="btn_SaveJsonFamilies" Content="Сохранить" 
+                Margin="10,35,10,10" Grid.Row="1" Grid.Column="0" 
+                VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="120" IsEnabled="True" 
+                Command="{Binding SaveJsonFamiliesCommand}"/>
+
+        <Button x:Name="btn_OpenJsonProjects" Content="Открыть" 
+                Margin="10,10,0,10" Grid.Row="1" Grid.Column="1" 
+                VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="120" IsEnabled="True" 
+                Command="{Binding OpenJsonProjectsCommand}"/>
+
+        <Button x:Name="btn_SaveJsonProjects" Content="Сохранить" 
+                Margin="10,35,10,10" Grid.Row="1" Grid.Column="1" 
+                VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="120" IsEnabled="True" 
+                Command="{Binding SaveJsonProjectsCommand}"/>
+    </Grid>
+</Window>
